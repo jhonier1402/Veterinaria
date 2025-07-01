@@ -51,8 +51,14 @@ public class VentanaLogin extends JFrame {
                             datos[1].equalsIgnoreCase(correo) &&
                             datos[2].equals(contra)) {
 
-                        lblMensaje.setText("Bienvenido " + datos[0] + " (" + datos[3] + ")");
                         encontrado = true;
+
+                        if (datos[3].equalsIgnoreCase("empleado")) {
+                            dispose();
+                            new VentanaEmpleado();
+                        } else {
+                            lblMensaje.setText("Acceso solo disponible para empleados.");
+                        }
                         break;
                     }
                 }
