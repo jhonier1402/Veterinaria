@@ -7,12 +7,34 @@ public class Trabajador {
         usuarios = new ArrayList<>();
     }
 
-    public boolean registrarUsuario(String nombre, String correo, String contraseña, String tipo) {
+    public boolean correoValido(String correo) {
+        return correo.matches("^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    public boolean correoExiste(String correo) {
         for (Usuario u : usuarios) {
-            if (u.getCorreo().equals(correo)) {
-                System.out.println("Ya existe un usuario con ese correo.");
-                return false;
+            if (u.getCorreo().equalsIgnoreCase(correo)) {
+                return true;
             }
+        }
+        return false;
+    }
+
+    public boolean registrarUsuario(String nombre, String correo, String contraseña, String tipo) {
+        if (!correoValido(correo)) {
+            System.out.println("El correo no tiene un formato válido.");
+            return false;
+        }
+
+        if (correoExiste(correo)) {
+            System.out.println("Ya existe un usuario con ese correo.");
+            return false;
+        }
+
+        if (correo.toLowerCase().endsWith("@veterinaria.co.com")) {
+            tipo = "empleado";
+        } else {
+            tipo = "normal";
         }
 
         usuarios.add(new Usuario(nombre, correo, contraseña, tipo));
@@ -22,7 +44,7 @@ public class Trabajador {
 
     public Usuario iniciarSesion(String correo, String contraseña) {
         for (Usuario u : usuarios) {
-            if (u.getCorreo().equals(correo) && u.verificarContraseña(contraseña)) {
+            if (u.getCorreo().equalsIgnoreCase(correo) && u.verificarContraseña(contraseña)) {
                 System.out.println("Bienvenido " + u.getNombre() + " (" + u.getTipo() + ")");
                 return u;
             }
