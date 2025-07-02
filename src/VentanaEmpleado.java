@@ -10,33 +10,37 @@ public class VentanaEmpleado extends JFrame {
 
         setTitle("Panel del Empleado");
         setSize(550, 300);
-        setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        // Fondo personalizado
+        PanelConFondo panel = new PanelConFondo();
+        panel.setLayout(null);
+        setContentPane(panel);
+
         JLabel lblTitulo = new JLabel("Opciones del Empleado:");
         lblTitulo.setBounds(20, 10, 300, 25);
-        add(lblTitulo);
+        panel.add(lblTitulo);
 
         JButton btnVerUsuarios = new JButton("Ver usuarios");
         btnVerUsuarios.setBounds(50, 50, 150, 30);
-        add(btnVerUsuarios);
+        panel.add(btnVerUsuarios);
 
         JButton btnVerMascotas = new JButton("Ver mascotas");
         btnVerMascotas.setBounds(250, 50, 180, 30);
-        add(btnVerMascotas);
+        panel.add(btnVerMascotas);
 
         JButton btnAgregarDatos = new JButton("Agregar / Editar datos");
         btnAgregarDatos.setBounds(50, 100, 180, 30);
-        add(btnAgregarDatos);
+        panel.add(btnAgregarDatos);
 
         JButton btnVerPerfil = new JButton("Ver mi perfil");
         btnVerPerfil.setBounds(250, 100, 180, 30);
-        add(btnVerPerfil);
+        panel.add(btnVerPerfil);
 
         JButton btnSalir = new JButton("Salir");
         btnSalir.setBounds(180, 170, 100, 30);
-        add(btnSalir);
+        panel.add(btnSalir);
 
         // Acción de exportar usuarios a PDF
         btnVerUsuarios.addActionListener(e -> ExportarUsuariosPDF.exportar());
@@ -102,4 +106,26 @@ public class VentanaEmpleado extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al leer datos del perfil.");
         }
     }
+
+    // Clase interna para panel con imagen de fondo
+    class PanelConFondo extends JPanel {
+        private Image fondo;
+
+        public PanelConFondo() {
+            try {
+                fondo = new ImageIcon(getClass().getResource("/FondoE.png")).getImage(); // asegúrate del path
+            } catch (Exception e) {
+                System.out.println("No se encontró FondoE.png");
+            }
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (fondo != null) {
+                g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
+    }
 }
+

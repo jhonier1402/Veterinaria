@@ -5,32 +5,37 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class VentanaUsuario extends JFrame {
-    private String idUsuario;  // correo electrónico del usuario
+    private String idUsuario;  // Correo electrónico del usuario
 
     public VentanaUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
 
         setTitle("Panel del Usuario");
-        setSize(400, 300);
-        setLayout(null);
+        setSize(450, 300);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        PanelConFondo fondoPanel = new PanelConFondo();
+        fondoPanel.setLayout(null);
+        setContentPane(fondoPanel);
+
         JLabel lblTitulo = new JLabel("Bienvenido, " + idUsuario);
-        lblTitulo.setBounds(50, 20, 300, 25);
-        add(lblTitulo);
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 16));
+        lblTitulo.setForeground(new Color(30, 30, 30));
+        lblTitulo.setBounds(100, 20, 300, 30);
+        fondoPanel.add(lblTitulo);
 
         JButton btnPerfil = new JButton("Ver mi perfil");
-        btnPerfil.setBounds(120, 60, 150, 30);
-        add(btnPerfil);
+        btnPerfil.setBounds(140, 70, 160, 30);
+        fondoPanel.add(btnPerfil);
 
         JButton btnMascotas = new JButton("Mis mascotas");
-        btnMascotas.setBounds(120, 100, 150, 30);
-        add(btnMascotas);
+        btnMascotas.setBounds(140, 110, 160, 30);
+        fondoPanel.add(btnMascotas);
 
         JButton btnSalir = new JButton("Salir");
-        btnSalir.setBounds(120, 150, 150, 30);
-        add(btnSalir);
+        btnSalir.setBounds(140, 160, 160, 30);
+        fondoPanel.add(btnSalir);
 
         btnPerfil.addActionListener(e -> mostrarPerfil());
         btnMascotas.addActionListener(e -> new VentanaMascotas(idUsuario));
@@ -60,4 +65,26 @@ public class VentanaUsuario extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al leer datos.");
         }
     }
+
+    // Clase interna para el fondo de la ventana
+    class PanelConFondo extends JPanel {
+        private Image fondo;
+
+        public PanelConFondo() {
+            try {
+                fondo = new ImageIcon(getClass().getResource("/FondoU.png")).getImage();
+            } catch (Exception e) {
+                System.out.println("No se encontró la imagen FondoU.png");
+            }
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (fondo != null) {
+                g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
+    }
 }
+
