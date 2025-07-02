@@ -55,7 +55,7 @@ public class VentanaLogin extends JFrame {
 
                         if (datos[3].equalsIgnoreCase("empleado")) {
                             dispose();
-                            new VentanaEmpleado();
+                            new VentanaEmpleado(correo);
                         } else {
                             lblMensaje.setText("Acceso solo disponible para empleados.");
                         }
@@ -79,3 +79,4 @@ public class VentanaLogin extends JFrame {
         setVisible(true);
     }
 }
+

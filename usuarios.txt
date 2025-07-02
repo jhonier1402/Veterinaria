@@ -1,2 +1,1 @@
-Jhonier,Jhonier@veterinaria.co.com,123456789,empleado
-JJ,JJ@veterinaria.co.com,,empleado
+J,J@veterinaria.co.com,,empleado
