@@ -1,2 +1,2 @@
 
-J@veterinaria.co.com,Petplus,Hombre,14/02/2007,Colombia,Bogotá
+j@veterinaria.co.com,Petplus,Hombre,DD/MM/AAAA,Colombia,Bogotá
