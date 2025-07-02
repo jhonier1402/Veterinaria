@@ -1,12 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.*;
+import java.nio.file.*;
 
 public class RegistroEmpleado extends JFrame {
     public RegistroEmpleado(String idEmpleado) {
         setTitle("Registro de Datos del Empleado");
-        setSize(400, 450);
+        setSize(400, 520);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -42,9 +42,22 @@ public class RegistroEmpleado extends JFrame {
         lblFechaNac.setBounds(30, 140, 150, 25);
         add(lblFechaNac);
 
-        JTextField txtFechaNac = new JTextField("DD/MM/AAAA");
-        txtFechaNac.setBounds(180, 140, 170, 25);
-        add(txtFechaNac);
+        String[] dias = new String[31];
+        for (int i = 0; i < 31; i++) dias[i] = String.valueOf(i + 1);
+        JComboBox<String> comboDia = new JComboBox<>(dias);
+        comboDia.setBounds(180, 140, 50, 25);
+        add(comboDia);
+
+        String[] meses = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        JComboBox<String> comboMes = new JComboBox<>(meses);
+        comboMes.setBounds(235, 140, 50, 25);
+        add(comboMes);
+
+        String[] anios = new String[131];
+        for (int i = 0; i < 131; i++) anios[i] = String.valueOf(1900 + i);
+        JComboBox<String> comboAnio = new JComboBox<>(anios);
+        comboAnio.setBounds(290, 140, 60, 25);
+        add(comboAnio);
 
         JLabel lblPais = new JLabel("País de nacimiento:");
         lblPais.setBounds(30, 180, 150, 25);
@@ -69,30 +82,38 @@ public class RegistroEmpleado extends JFrame {
         comboCiudad.setBounds(180, 220, 170, 25);
         add(comboCiudad);
 
+        JLabel lblNumero = new JLabel("Número de teléfono:");
+        lblNumero.setBounds(30, 260, 150, 25);
+        add(lblNumero);
+
+        JTextField txtNumero = new JTextField();
+        txtNumero.setBounds(180, 260, 170, 25);
+        add(txtNumero);
+
         JButton btnGuardar = new JButton("Guardar");
-        btnGuardar.setBounds(100, 280, 100, 30);
+        btnGuardar.setBounds(100, 320, 100, 30);
         add(btnGuardar);
 
         JButton btnSalir = new JButton("Salir");
-        btnSalir.setBounds(210, 280, 100, 30);
+        btnSalir.setBounds(210, 320, 100, 30);
         add(btnSalir);
 
         btnGuardar.addActionListener(e -> {
             String id = txtId.getText().trim();
             String veterinaria = (String) comboVeterinaria.getSelectedItem();
             String genero = (String) comboGenero.getSelectedItem();
-            String fecha = txtFechaNac.getText().trim();
+            String fecha = comboDia.getSelectedItem() + "/" + comboMes.getSelectedItem() + "/" + comboAnio.getSelectedItem();
             String pais = (String) comboPais.getSelectedItem();
             String ciudad = (String) comboCiudad.getSelectedItem();
+            String numero = txtNumero.getText().trim();
 
-            if (fecha.isEmpty()) {
+            if (numero.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
                 return;
             }
 
-            // Eliminar línea anterior si ya existe
             File original = new File("datos_empleados.txt");
-            File temporal = new File("temp.txt");
+            File temporal = new File("temp_empleados.txt");
 
             try (BufferedReader br = new BufferedReader(new FileReader(original));
                  BufferedWriter bw = new BufferedWriter(new FileWriter(temporal))) {
@@ -104,34 +125,32 @@ public class RegistroEmpleado extends JFrame {
                         bw.newLine();
                     }
                 }
+
+                String nuevaLinea = id + "," + veterinaria + "," + genero + "," + fecha + "," + pais + "," + ciudad + "," + numero;
+                bw.write(nuevaLinea);
+                bw.newLine();
+
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error al procesar archivo.");
                 return;
             }
 
-            // Guardar nueva línea
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt", true))) {
-                String nuevaLinea = id + "," + veterinaria + "," + genero + "," + fecha + "," + pais + "," + ciudad;
-                bw.write(nuevaLinea);
-                bw.newLine();
+            try {
+                Files.deleteIfExists(original.toPath());
+                Files.move(temporal.toPath(), original.toPath());
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error al guardar los datos.");
+                JOptionPane.showMessageDialog(this, "Error al actualizar los datos.");
                 return;
             }
 
-            // Reemplazar archivo original
-            if (!original.delete() || !temporal.renameTo(original)) {
-                JOptionPane.showMessageDialog(this, "Error al actualizar datos.");
-                return;
-            }
-
-            JOptionPane.showMessageDialog(this, "Datos guardados correctamente:\n\n" +
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente:\n" +
                     "ID: " + id + "\n" +
-                    "Veterinaria: " + veterinaria + "\n" +
-                    "Género: " + genero + "\n" +
-                    "Fecha: " + fecha + "\n" +
-                    "País: " + pais + "\n" +
-                    "Ciudad: " + ciudad);
+                            "Veterinaria: " + veterinaria + "\n" +
+                            "Género: " + genero + "\n" +
+                            "Fecha: " + fecha + "\n" +
+                            "País: " + pais + "\n" +
+                            "Ciudad: " + ciudad + "\n" +
+                            "Número: " + numero);
 
             dispose();
         });

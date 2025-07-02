@@ -9,68 +9,54 @@ public class VentanaEmpleado extends JFrame {
         this.idEmpleado = idEmpleado;
 
         setTitle("Panel del Empleado");
-        setSize(500, 450);
+        setSize(550, 300);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JLabel lblTitulo = new JLabel("Opciones del Empleado:");
-        lblTitulo.setBounds(20, 10, 200, 25);
+        lblTitulo.setBounds(20, 10, 300, 25);
         add(lblTitulo);
 
         JButton btnVerUsuarios = new JButton("Ver usuarios");
         btnVerUsuarios.setBounds(50, 50, 150, 30);
         add(btnVerUsuarios);
 
+        JButton btnVerMascotas = new JButton("Ver mascotas");
+        btnVerMascotas.setBounds(250, 50, 180, 30);
+        add(btnVerMascotas);
+
         JButton btnAgregarDatos = new JButton("Agregar / Editar datos");
-        btnAgregarDatos.setBounds(250, 50, 180, 30);
+        btnAgregarDatos.setBounds(50, 100, 180, 30);
         add(btnAgregarDatos);
 
         JButton btnVerPerfil = new JButton("Ver mi perfil");
-        btnVerPerfil.setBounds(50, 100, 150, 30);
+        btnVerPerfil.setBounds(250, 100, 180, 30);
         add(btnVerPerfil);
 
         JButton btnSalir = new JButton("Salir");
-        btnSalir.setBounds(180, 150, 100, 30);
+        btnSalir.setBounds(180, 170, 100, 30);
         add(btnSalir);
 
-        btnVerUsuarios.addActionListener(e -> mostrarUsuarios());
+        // Acción de exportar usuarios a PDF
+        btnVerUsuarios.addActionListener(e -> ExportarUsuariosPDF.exportar());
+
+        // Acción de exportar mascotas a PDF
+        btnVerMascotas.addActionListener(e -> VerTodasLasMascotasPDF.generar());
+
+        // Acción para agregar o editar datos del empleado
         btnAgregarDatos.addActionListener(e -> registrarOEditarDatos());
+
+        // Acción para mostrar perfil del empleado
         btnVerPerfil.addActionListener(e -> mostrarPerfil());
+
+        // Acción para salir al menú principal
         btnSalir.addActionListener(e -> {
             dispose();
             new VentanaPrincipal();
         });
 
         setVisible(true);
-    }
-
-    private void mostrarUsuarios() {
-        JTextArea area = new JTextArea();
-        area.setEditable(false);
-
-        String encabezado = String.format("%-20s %-30s %-10s\n", "Nombre", "ID (Correo)", "Grupo");
-        encabezado += "--------------------------------------------------------------\n";
-        area.append(encabezado);
-
-        try (BufferedReader br = new BufferedReader(new FileReader("usuarios.txt"))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(",");
-                if (datos.length == 4) {
-                    String nombre = datos[0];
-                    String correo = datos[1];
-                    String tipo = datos[3];
-                    area.append(String.format("%-20s %-30s %-10s\n", nombre, correo, tipo));
-                }
-            }
-        } catch (IOException ex) {
-            area.setText("Error al leer archivo o no existe.");
-        }
-
-        JScrollPane scroll = new JScrollPane(area);
-        scroll.setPreferredSize(new Dimension(450, 250));
-        JOptionPane.showMessageDialog(this, scroll, "Usuarios Registrados", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void registrarOEditarDatos() {
