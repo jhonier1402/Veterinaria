@@ -1,3 +1,7 @@
 J,J@veterinaria.co.com,1,empleado
 ale,a@a.com,1,normal
 q,q@q.com,q,normal
+chris,cris@gmail.com,e5353781,normal
+diana chizaba,dianachizaba@veterinaria.co.com,21221517,empleado
+diana chizaba,dianachizaba@veterinaria.co.com,21221517,empleado
+u,u@u.com,u,normal

@@ -1,1 +1,2 @@
 j@veterinaria.co.com,Petplus,Hombre,1/01/1900,Colombia,Bogotá,3115616331
+dianachizaba@veterinaria.co.com,Clínica Veterinaria Dogtor,Otro,21/06/2007,Colombia,Bogotá,3013386547

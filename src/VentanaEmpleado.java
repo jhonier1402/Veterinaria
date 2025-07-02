@@ -42,16 +42,16 @@ public class VentanaEmpleado extends JFrame {
         btnSalir.setBounds(180, 170, 100, 30);
         panel.add(btnSalir);
 
-        // Acción de exportar usuarios a PDF
+        //Exportar usuarios a PDF
         btnVerUsuarios.addActionListener(e -> ExportarUsuariosPDF.exportar());
 
-        // Acción de exportar mascotas a PDF
+        //Exportar mascotas a PDF
         btnVerMascotas.addActionListener(e -> VerTodasLasMascotasPDF.generar());
 
-        // Acción para agregar o editar datos del empleado
+        //Agregar o editar datos del empleado
         btnAgregarDatos.addActionListener(e -> registrarOEditarDatos());
 
-        // Acción para mostrar perfil del empleado
+        //Mostrar perfil del empleado
         btnVerPerfil.addActionListener(e -> mostrarPerfil());
 
         // Acción para salir al menú principal
