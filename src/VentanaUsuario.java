@@ -11,7 +11,7 @@ public class VentanaUsuario extends JFrame {
         this.idUsuario = idUsuario;
 
         setTitle("Panel del Usuario");
-        setSize(800, 600);
+        setSize(400, 300);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
