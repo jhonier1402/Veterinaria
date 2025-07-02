@@ -1,1 +1,2 @@
 J,J@veterinaria.co.com,,empleado
+ale,a@a.com,1,normal

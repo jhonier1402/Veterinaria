@@ -1,4 +1,8 @@
 import javax.swing.*;
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class VentanaUsuario extends JFrame {
     private String idUsuario;  // correo electrónico del usuario
