@@ -34,10 +34,7 @@ public class VentanaEmpleado extends JFrame {
         btnSalir.setBounds(180, 150, 100, 30);
         add(btnSalir);
 
-        btnVerUsuarios.addActionListener(e -> {
-            ExportarUsuariosPDF.exportar();
-        });
-
+        btnVerUsuarios.addActionListener(e -> mostrarUsuarios());
         btnAgregarDatos.addActionListener(e -> registrarOEditarDatos());
         btnVerPerfil.addActionListener(e -> mostrarPerfil());
         btnSalir.addActionListener(e -> {
@@ -48,13 +45,42 @@ public class VentanaEmpleado extends JFrame {
         setVisible(true);
     }
 
+    private void mostrarUsuarios() {
+        JTextArea area = new JTextArea();
+        area.setEditable(false);
+
+        String encabezado = String.format("%-20s %-30s %-10s\n", "Nombre", "ID (Correo)", "Grupo");
+        encabezado += "--------------------------------------------------------------\n";
+        area.append(encabezado);
+
+        try (BufferedReader br = new BufferedReader(new FileReader("usuarios.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 4) {
+                    String nombre = datos[0];
+                    String correo = datos[1];
+                    String tipo = datos[3];
+                    area.append(String.format("%-20s %-30s %-10s\n", nombre, correo, tipo));
+                }
+            }
+        } catch (IOException ex) {
+            area.setText("Error al leer archivo o no existe.");
+        }
+
+        JScrollPane scroll = new JScrollPane(area);
+        scroll.setPreferredSize(new Dimension(450, 250));
+        JOptionPane.showMessageDialog(this, scroll, "Usuarios Registrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     private void registrarOEditarDatos() {
         boolean yaExiste = false;
 
         try (BufferedReader br = new BufferedReader(new FileReader("datos_empleados.txt"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                if (linea.contains(idEmpleado)) {
+                String[] datos = linea.split(",");
+                if (datos.length > 0 && datos[0].equalsIgnoreCase(idEmpleado)) {
                     yaExiste = true;
                     break;
                 }
@@ -73,8 +99,8 @@ public class VentanaEmpleado extends JFrame {
         try (BufferedReader br = new BufferedReader(new FileReader("datos_empleados.txt"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                if (linea.contains(idEmpleado)) {
-                    String[] datos = linea.split(",");
+                String[] datos = linea.split(",");
+                if (datos.length >= 6 && datos[0].equalsIgnoreCase(idEmpleado)) {
                     String perfil = "ID: " + datos[0] +
                             "\nVeterinaria: " + datos[1] +
                             "\nGénero: " + datos[2] +

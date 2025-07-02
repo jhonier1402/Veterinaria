@@ -16,7 +16,7 @@ public class VentanaPrincipal extends JFrame {
         // Título arriba
         JLabel lblTitulo = new JLabel("Grupo Veterinario SAS");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
-        lblTitulo.setForeground(new Color(110, 40, 40)); // Color gris oscuro
+        lblTitulo.setForeground(new Color(100, 10, 20)); // Color gris oscuro
         lblTitulo.setBounds(120, 30, 300, 30); // Posición centrada
         panel.add(lblTitulo);
 
